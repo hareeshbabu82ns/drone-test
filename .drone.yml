@@ -1,0 +1,24 @@
+kind: pipeline
+type: docker
+name: greeting
+
+steps:
+- name: en
+  image: alpine
+  commands:
+  - echo hello world
+
+- name: fr
+  image: alpine
+  commands:
+  - echo bonjour monde
+  when:
+    branch:
+    - develop
+
+- name: notify
+  image: plugins/slack
+  settings:
+    channel: pipelines
+    webhook:
+      from_secret: pipeline_notifier
